@@ -11,8 +11,16 @@ def readVectorsToNPArray(path):
     return np.array(list,dtype=float)
 
 def getEigenValues(A):
-    transposedA = A.transpose()
-    resultMatrix = transposedA.dot(A)
+    # вектор среднего по всем строкам X
+    meanVector = np.mean(A, axis=0)
+
+    # Вычитаем meanVector из каждой строки матрицы X
+    centeredA = A - meanVector
+
+    transposedA = centeredA.transpose()
+
+    resultMatrix = transposedA.dot(centeredA)
+
     eigs = linalg.eigvals(resultMatrix)
     # Оставляем только действительные собственные числа
     realEigs = np.real(eigs[np.isreal(eigs)])
@@ -28,13 +36,13 @@ def plotEigenValues(values):
     # Set labels and title
     plt.xlabel('Номер')
     plt.ylabel('Значения собственных чисел')
-    plt.title('Банк')
+    plt.title('Математика')
 
     # Display the plot
     plt.show()
 
 if __name__ == '__main__':
-    A = readVectorsToNPArray('./vectors/ruscorpora_upos_skipgram_300_5_2018/banks.txt')
+    A = readVectorsToNPArray('./vectors/ruscorpora_upos_skipgram_300_5_2018/math.txt')
     eigenValues = getEigenValues(A)
     plotEigenValues(eigenValues)
 
