@@ -55,5 +55,5 @@ if __name__ == '__main__':
         title = str(sys.argv[2])  
 
     A = readVectorsToNPArray(path)
-    eigenValues = getEigenValues(A, title)
-    plotEigenValues(eigenValues)
+    eigenValues = getEigenValues(A)
+    plotEigenValues(eigenValues, title)

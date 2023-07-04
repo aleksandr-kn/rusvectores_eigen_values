@@ -9,7 +9,7 @@ def readFileIntoList(filepath):
     return list
 
 if __name__ == '__main__':
-    wordsToFind = readFileIntoList('./datasets/авиация.txt')
+    wordsToFind = readFileIntoList('./datasets/история.txt')
 
     vectors = []
 
@@ -26,6 +26,6 @@ if __name__ == '__main__':
                 item[0]
                 vectors.append(item.rstrip())
     # Записываем полученные вектора в файл                
-    with open('./vectors/ruscorpora_upos_cbow_300_20_2019/aviation.txt', 'w', encoding="utf-8") as f:
+    with open('./vectors/ruscorpora_upos_cbow_300_20_2019/history.txt', 'w', encoding="utf-8") as f:
         for line in vectors:
             f.write(f"{line}\n")
