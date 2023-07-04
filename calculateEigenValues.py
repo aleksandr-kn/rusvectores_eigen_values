@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import linalg
+import sys
 
+# Читает вектора из файла в numpy array, его же возвращает
 def readVectorsToNPArray(path):
     list = []
     with open(path, mode="r", encoding="utf-8") as file:
@@ -10,6 +12,7 @@ def readVectorsToNPArray(path):
             list.append(vector)
     return np.array(list,dtype=float)
 
+# Вычисляет собственные значения переданной матрицы
 def getEigenValues(A):
     # вектор среднего по всем строкам X
     meanVector = np.mean(A, axis=0)
@@ -21,14 +24,15 @@ def getEigenValues(A):
 
     resultMatrix = transposedA.dot(centeredA)
 
-    eigs = linalg.eigvals(resultMatrix)
+    eigs = np.linalg.eigvalsh(resultMatrix)
     # Оставляем только действительные собственные числа
-    realEigs = np.real(eigs[np.isreal(eigs)])
+    # realEigs = np.real(eigs[np.isreal(eigs)])
     # Сортируем по убыванию значений
-    sortedEigs = np.sort(realEigs)[::-1]
+    sortedEigs = np.sort(eigs)[::-1]
     return sortedEigs
 
-def plotEigenValues(values):
+# Визуализация собстенных значений матрицы
+def plotEigenValues(values, title):
     indexes = np.arange(len(values))
     # Plot the array values
     plt.scatter(indexes, values, s=5)
@@ -36,13 +40,20 @@ def plotEigenValues(values):
     # Set labels and title
     plt.xlabel('Номер')
     plt.ylabel('Значения собственных чисел')
-    plt.title('Математика')
+    plt.title(title)
 
     # Display the plot
     plt.show()
 
 if __name__ == '__main__':
-    A = readVectorsToNPArray('./vectors/ruscorpora_upos_skipgram_300_5_2018/math.txt')
-    eigenValues = getEigenValues(A)
-    plotEigenValues(eigenValues)
+    if (not sys.argv[1]):
+        sys.exit('Укажите путь до списка векторов')
+    path = str(sys.argv[1])
 
+    title = 'График собственных чисел'
+    if (sys.argv[2]):
+        title = str(sys.argv[2])  
+
+    A = readVectorsToNPArray(path)
+    eigenValues = getEigenValues(A, title)
+    plotEigenValues(eigenValues)

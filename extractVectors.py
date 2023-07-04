@@ -1,5 +1,6 @@
 import csv
 
+# Возвращет список, где каждый элемент это 1 строка из читаемого файла
 def readFileIntoList(filepath):
     list = []
     with open(filepath, mode="r", encoding="utf-8") as file:
@@ -8,11 +9,12 @@ def readFileIntoList(filepath):
     return list
 
 if __name__ == '__main__':
-    wordsToFind = readFileIntoList('./datasets/банки.txt')
+    wordsToFind = readFileIntoList('./datasets/авиация.txt')
 
     vectors = []
 
-    with open('ruscorpora_upos_skipgram_300_5_2018.vec', mode="r", encoding="utf-8") as file:
+    # Ищем слова из нашего словаря в модели
+    with open('./models/ruscorpora_upos_cbow_300_20_2019.txt', mode="r", encoding="utf-8") as file:
         for index, item in enumerate(file):
             #Выводим текущий прогресс
             print(index / 237255)
@@ -23,7 +25,7 @@ if __name__ == '__main__':
             if word in wordsToFind:
                 item[0]
                 vectors.append(item.rstrip())
-                
-    with open('./vectors/ruscorpora_upos_skipgram_300_5_2018/banks.txt', 'w', encoding="utf-8") as f:
+    # Записываем полученные вектора в файл                
+    with open('./vectors/ruscorpora_upos_cbow_300_20_2019/aviation.txt', 'w', encoding="utf-8") as f:
         for line in vectors:
             f.write(f"{line}\n")
